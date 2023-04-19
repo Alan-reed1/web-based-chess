@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess</title>
 
-        <!-- <style>
-            #chessBoard {
-               /* display: grid; */
-               border: 1px solid black;
-            } 
-            </style> -->
 </head>
 <body>
     <script>
@@ -52,7 +46,6 @@
     console.log(board)
 }
 
-
 var board = createBoard(rowCount, colCount, height, width);
 
 
@@ -74,128 +67,136 @@ function makeSpaces() {
             spacesX.push(x);
         }
     }
-    console.log(spacesX, spacesY);
+    console.log(spacesX, "above is spacesX", spacesY);
 }
 makeSpaces();
 
-function bishop(whereX, whereY) {
+function bishop(whereX, whereY, color) {
     var canvas = document.getElementById("chessBoard");
     var ctx = canvas.getContext("2d")
     var bishop = new Image();
     bishop.onload = function() {
         ctx.drawImage(bishop, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
     }
+    if (color === "white") {
+    bishop.src = "https://th.bing.com/th/id/R.85b5ba3279766d35c9638797a34acf8d?rik=qxIrEckPc9wwQg&riu=http%3a%2f%2fwww.clker.com%2fcliparts%2fH%2fr%2fH%2fd%2fw%2fa%2fwhite-bishop-hi.png&ehk=gnpRJr52Uoy3zpN9DKIr7V4Efr0Pw0VEUZJ4zwarVLc%3d&risl=&pid=ImgRaw&r=0";
+    } else {
     bishop.src = "https://e7.pngegg.com/pngimages/210/333/png-clipart-chess-piece-bishop-knight-chess-king-sports-thumbnail.png";
+  } 
 }
 
 
-function rook(whereX, whereY, src) {
-    var canvas = document.getElementById("chessBoard");
-    var ctx = canvas.getContext("2d")
-    var rook = new Image();
-    rook.onload = function() {
-        ctx.drawImage(rook, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
-    }
-    rook.src = src;
+function rook(whereX, whereY, color) {
+  var canvas = document.getElementById("chessBoard");
+  var ctx = canvas.getContext("2d")
+  var rook = new Image();
+  rook.onload = function() {
+    ctx.drawImage(rook, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+  }
+  if (color === "white") {
+    rook.src = "https://th.bing.com/th/id/R.047884054421933010370056da734eaf?rik=NbzUSz6EXsUo2Q&riu=http%3a%2f%2fwww.clker.com%2fcliparts%2fS%2fY%2fZ%2fY%2fA%2fw%2fwhite-rook-hi.png&ehk=16gIv%2fo6oePnpW1hrn7%2fLguMaM0HUbkG5pUZO0lrspc%3d&risl=&pid=ImgRaw&r=0";
+  } else {
+    rook.src = "https://th.bing.com/th/id/R.b2d15bf6eecb65c2d568c57220ad0ed1?rik=Ub%2fRfFbb89SiDQ&pid=ImgRaw&r=0";
+  }
 }
 
 
-function knight(whereX, whereY) {
+
+function knight(whereX, whereY, color) {
     var canvas = document.getElementById("chessBoard");
     var ctx = canvas.getContext("2d")
     var knight = new Image();
     knight.onload = function() {
         ctx.drawImage(knight, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
     }
-    knight.src = "https://th.bing.com/th/id/OIP.MxJ5sLk04iB2Li4ZlA8aCAHaL9?w=120&h=194&c=7&r=0&o=5&pid=1.7";
+    if (color === "white") {
+        knight.src = "https://clipartspub.com/images/chess-clipart-white-knight-2.png"
+    } else {
+        knight.src = "https://th.bing.com/th/id/OIP.MxJ5sLk04iB2Li4ZlA8aCAHaL9?w=120&h=194&c=7&r=0&o=5&pid=1.7";
+    }
 }
 
-function queen(whereX, whereY) {
+function queen(whereX, whereY, color) {
     var canvas = document.getElementById("chessBoard");
     var ctx = canvas.getContext("2d");
     var queen = new Image();
     queen.onload = function() {
         ctx.drawImage(queen, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
     }
-    queen.src = "https://th.bing.com/th/id/R.1b1fe39fb5f3d8159bf2c8818261b70d?rik=c4cl4kVZlK5J7Q&riu=http%3a%2f%2fwww.symbols.com%2fgi.php%3ftype%3d1%26id%3d3399&ehk=vAxWE4A4Z6oupB8RqM8SxnjuPcvv0HSbcpoYzUv3OD8%3d&risl=&pid=ImgRaw&r=0"
+    if (color === "white") {
+        queen.src = "https://th.bing.com/th/id/OIP.1gFyCMJHXWV7ky7rtVuiRQEBDy?pid=ImgDet&rs=1";
+    } else {
+        queen.src = "https://th.bing.com/th/id/R.1b1fe39fb5f3d8159bf2c8818261b70d?rik=c4cl4kVZlK5J7Q&riu=http%3a%2f%2fwww.symbols.com%2fgi.php%3ftype%3d1%26id%3d3399&ehk=vAxWE4A4Z6oupB8RqM8SxnjuPcvv0HSbcpoYzUv3OD8%3d&risl=&pid=ImgRaw&r=0"
+    }
 }
 
-function king(whereX, whereY) {
+function king(whereX, whereY, color) {
     var canvas = document.getElementById("chessBoard");
     var ctx = canvas.getContext("2d");
     var king = new Image();
     king.onload = function() {
         ctx.drawImage(king, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
     }
-    king.src = "https://www.symbols.com/images/symbol/1/3398_black-king.png"
+    if (color === "white") {
+        king.src = "https://www.pinclipart.com/picdir/big/346-3463011_lights-camera-action-clipart.png"
+    } else {
+        king.src = "https://www.symbols.com/images/symbol/1/3398_black-king.png";
+    }
 }
-function pawn(whereX, whereY, src) {
+function pawn(whereX, whereY, color) {
     var canvas = document.getElementById("chessBoard");
     var ctx = canvas.getContext("2d");
     var pawn = new Image();
     pawn.onload = function() {
         ctx.drawImage(pawn, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
     }
-    pawn.src = "https://www.shareicon.net/data/2015/09/27/108210_game_512x512.png"
+    if (color === "white") {
+        pawn.src = "https://th.bing.com/th/id/R.9cba480cb3c801e023387b8f0430065a?rik=M70%2f36dveVcfjw&pid=ImgRaw&r=0";
+    } else {
+        pawn.src = "https://www.shareicon.net/data/2015/09/27/108210_game_512x512.png";
+    }
 }   
 
 function initializePieces() {
     function pawnPlacement() {
         for (let i = 0; i < 8; i++) {
-            console.log(i);
-            pawn(i, 9);
+            pawn(i, 9, color = "black");
+            pawn(i, 55, color = "white");
         }
     }
         
 
     function rookPlacement() {
-        // white and black logic
-        if (rook() && rook()[1] <= 0) {
-            let src = "https://th.bing.com/th/id/OIP.hYLpPt9mAIWkp0H-p4hLnAHaHa?pid=ImgDet&rs=1";
-            rook(0, 7, src);
-            rook(7, 7, src);
-        }
-        else {
-            let src = "https://th.bing.com/th/id/R.047884054421933010370056da734eaf?rik=NbzUSz6EXsUo2Q&riu=http%3a%2f%2fwww.clker.com%2fcliparts%2fS%2fY%2fZ%2fY%2fA%2fw%2fwhite-rook-hi.png&ehk=16gIv%2fo6oePnpW1hrn7%2fLguMaM0HUbkG5pUZO0lrspc%3d&risl=&pid=ImgRaw&r=0"
-            rook(0, 7, src);
-            rook(7, 7, src);
-        }
+        rook(0, 0, color = "black");
+        rook(7, 7, color = "black");
+        rook(0, 56, color = "white");
+        rook(7, 63, color = "white");
     }
 
     function knightPlacement() {
-        knight(1, 0);
-        knight(6, 0);
+        knight(1, 0, color = "black");
+        knight(6, 0, color = "black");
+        knight(1, 57, color = "white");
+        knight(6, 63, color = "white");
     }
     
     function bishopPlacement() {
-        bishop(2, 0);
-        bishop(5, 0);
+        bishop(2, 0, color = "black");
+        bishop(5, 0, color = "black");
+        bishop(2, 63, color = "white");
+        bishop(5, 63, color = "white");
     }
     
     function queenPlacement() {
-        queen(3, 0);
+        queen(3, 0, color = "black");
+        queen(3, 63, color = "white");
     }
 
     function kingPlacement() {
-        king(4, 0);
+        king(4, 0, color = "black");
+        king(4, 63, color = "white")
     }
 
-    // // Add knights
-    //  = knight();
-    //  = knight();
-    //  = knight();
-    //  = knight();
-    // // Add bishops
-    //  = bishop();
-    //  = bishop();
-    //  = bishop();
-    //  = bishop();
-    // // Add queens
-    //  = queen();
-    //  = queen();
-    // // Add kings
-    //  = king();
-    //  = king();
     pawnPlacement();
     rookPlacement();
     knightPlacement();
@@ -204,6 +205,41 @@ function initializePieces() {
     kingPlacement();
 }
     initializePieces();
+
+
+
+
+    // movement functionality
+    const canvas = document.getElementById('chessBoard');
+    canvas.addEventListener('click', function(event) {
+  const x = event.offsetX;
+  const y = event.offsetY;
+  let square = null;
+  for (let i = 0; i < spacesX.length; i++) {
+    if (i < 56 && x >= spacesX[i] && x < spacesX[i+1] && y >= spacesY[i] && y < spacesY[i+8]) {
+      square = i;
+      console.log(i, square);
+      break;
+    } else if (i >= 56 && x >= spacesX[i] && x <= spacesX[0] + 800 && y >= spacesY[i] && y <= spacesY[0] + 800) {
+      square = i;
+      console.log(i, square);
+      break;
+    } else if (i%8 === 7 && x >= spacesX[i] && x <= spacesX[0] + 800 && y >= spacesY[i] && y < spacesY[i+1]) {
+      square = i;
+      console.log(i, square);
+      break;
+    }
+  }
+  if (square !== null) {
+    console.log(`Square clicked: ${String.fromCharCode(97+square%8)}${8-Math.floor(square/8)}`);
+  } else {
+    console.log('No square clicked');
+  }
+});
+
+
+
+
       </script>
 </body>
 </html>
