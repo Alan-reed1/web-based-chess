@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+
+        <!-- <style>
+            #chessBoard {
+               /* display: grid; */
+               border: 1px solid black;
+            } 
+            </style> -->
+</head>
+<body>
+    <script>
+    var offset = 10;
+    var imgSize = 80;
+    var rowCount = 8;
+    var colCount = 8;
+    var height = 100;
+    var width = 100;
+    
+    function createBoard(rowCount, colCount, height, width) {
+    var canvas = document.createElement("canvas");
+    canvas.id = "chessBoard";
+    canvas.width = width * colCount;
+    canvas.height = height * rowCount;
+    canvas.style.border = "1px solid black";
+    document.body.insertBefore(canvas, document.body.childNodes[0]);
+    var ctx = canvas.getContext("2d");
+    var board = {};
+    for (c = 0; c < colCount; c++) {
+        board[c] = {};
+        for (r = 0; r < rowCount; r++) {
+            var bX = (c * width);
+            var bY = (r * height);
+            board[c][r] = {x: bX, y: bY};
+            ctx.beginPath();
+            ctx.rect(bX, bY, width, height);
+            if ((c + r) % 2 == 0) {
+                ctx.fillStyle = "#FFFFFF";
+            } else {
+                ctx.fillStyle = "green";
+            }
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+    return board;
+    console.log(board)
+}
+
+
+var board = createBoard(rowCount, colCount, height, width);
+
+
+spacesY = [];
+spacesX = [];
+
+function makeSpaces() {
+    const squareSize = 100;
+
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+
+            let x = col * squareSize;
+            let y = row * squareSize;
+        
+            let position = String.fromCharCode(col + 97) + (8 - row);
+            // console.log(`Square (${col}, ${row}) has position ${position}`);
+            spacesY.push(y);
+            spacesX.push(x);
+        }
+    }
+    console.log(spacesX, spacesY);
+}
+makeSpaces();
+
+function bishop(whereX, whereY) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d")
+    var bishop = new Image();
+    bishop.onload = function() {
+        ctx.drawImage(bishop, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    bishop.src = "https://e7.pngegg.com/pngimages/210/333/png-clipart-chess-piece-bishop-knight-chess-king-sports-thumbnail.png";
+}
+
+
+function rook(whereX, whereY, src) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d")
+    var rook = new Image();
+    rook.onload = function() {
+        ctx.drawImage(rook, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    rook.src = src;
+}
+
+
+function knight(whereX, whereY) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d")
+    var knight = new Image();
+    knight.onload = function() {
+        ctx.drawImage(knight, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    knight.src = "https://th.bing.com/th/id/OIP.MxJ5sLk04iB2Li4ZlA8aCAHaL9?w=120&h=194&c=7&r=0&o=5&pid=1.7";
+}
+
+function queen(whereX, whereY) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d");
+    var queen = new Image();
+    queen.onload = function() {
+        ctx.drawImage(queen, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    queen.src = "https://th.bing.com/th/id/R.1b1fe39fb5f3d8159bf2c8818261b70d?rik=c4cl4kVZlK5J7Q&riu=http%3a%2f%2fwww.symbols.com%2fgi.php%3ftype%3d1%26id%3d3399&ehk=vAxWE4A4Z6oupB8RqM8SxnjuPcvv0HSbcpoYzUv3OD8%3d&risl=&pid=ImgRaw&r=0"
+}
+
+function king(whereX, whereY) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d");
+    var king = new Image();
+    king.onload = function() {
+        ctx.drawImage(king, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    king.src = "https://www.symbols.com/images/symbol/1/3398_black-king.png"
+}
+function pawn(whereX, whereY, src) {
+    var canvas = document.getElementById("chessBoard");
+    var ctx = canvas.getContext("2d");
+    var pawn = new Image();
+    pawn.onload = function() {
+        ctx.drawImage(pawn, spacesX[whereX] + offset, spacesY[whereY] + offset, imgSize, imgSize)
+    }
+    pawn.src = "https://www.shareicon.net/data/2015/09/27/108210_game_512x512.png"
+}   
+
+function initializePieces() {
+    function pawnPlacement() {
+        for (let i = 0; i < 8; i++) {
+            console.log(i);
+            pawn(i, 9);
+        }
+    }
+        
+
+    function rookPlacement() {
+        // white and black logic
+        if (rook() && rook()[1] <= 0) {
+            let src = "https://th.bing.com/th/id/OIP.hYLpPt9mAIWkp0H-p4hLnAHaHa?pid=ImgDet&rs=1";
+            rook(0, 7, src);
+            rook(7, 7, src);
+        }
+        else {
+            let src = "https://th.bing.com/th/id/R.047884054421933010370056da734eaf?rik=NbzUSz6EXsUo2Q&riu=http%3a%2f%2fwww.clker.com%2fcliparts%2fS%2fY%2fZ%2fY%2fA%2fw%2fwhite-rook-hi.png&ehk=16gIv%2fo6oePnpW1hrn7%2fLguMaM0HUbkG5pUZO0lrspc%3d&risl=&pid=ImgRaw&r=0"
+            rook(0, 7, src);
+            rook(7, 7, src);
+        }
+    }
+
+    function knightPlacement() {
+        knight(1, 0);
+        knight(6, 0);
+    }
+    
+    function bishopPlacement() {
+        bishop(2, 0);
+        bishop(5, 0);
+    }
+    
+    function queenPlacement() {
+        queen(3, 0);
+    }
+
+    function kingPlacement() {
+        king(4, 0);
+    }
+
+    // // Add knights
+    //  = knight();
+    //  = knight();
+    //  = knight();
+    //  = knight();
+    // // Add bishops
+    //  = bishop();
+    //  = bishop();
+    //  = bishop();
+    //  = bishop();
+    // // Add queens
+    //  = queen();
+    //  = queen();
+    // // Add kings
+    //  = king();
+    //  = king();
+    pawnPlacement();
+    rookPlacement();
+    knightPlacement();
+    bishopPlacement();
+    queenPlacement();
+    kingPlacement();
+}
+    initializePieces();
+      </script>
+</body>
+</html>
