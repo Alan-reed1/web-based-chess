@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess</title>
 
+        <!-- <style>
+            #chessBoard {
+               /* display: grid; */
+               border: 1px solid black;
+            } 
+            </style> -->
 </head>
 <body>
     <script>
@@ -214,19 +220,33 @@ function initializePieces() {
     canvas.addEventListener('click', function(event) {
   const x = event.offsetX;
   const y = event.offsetY;
+  console.log(x, y)
   let square = null;
   for (let i = 0; i < spacesX.length; i++) {
-    if (i < 56 && x >= spacesX[i] && x < spacesX[i+1] && y >= spacesY[i] && y < spacesY[i+8]) {
+    if (i % 8 === 7) {
+      // handle last column
+      if (x >= spacesX[i] && y >= spacesY[i] && y <= spacesY[i+7]) {
+        square = i;
+        console.log(square + " last column");
+        break;
+      }
+    } else if (Math.floor(i / 8) === 7) {
+      // handle last row
+      if (y >= spacesY[i] && x >= spacesX[i] && x < spacesX[i+1]) {
+        square = i;
+        console.log(square + " last row");
+        break;
+      }
+    } else if (x >= spacesX[63] && y >= spacesY[63]) {
+        // handle intersection
+        square = 64;
+        console.log(square + " intersection");
+        break;
+    }
+    else if (x >= spacesX[i] && x < spacesX[i+1] && y >= spacesY[i] && y <= spacesY[i+8]) {
+      // handle all other squares
       square = i;
-      console.log(i, square);
-      break;
-    } else if (i >= 56 && x >= spacesX[i] && x <= spacesX[0] + 800 && y >= spacesY[i] && y <= spacesY[0] + 800) {
-      square = i;
-      console.log(i, square);
-      break;
-    } else if (i%8 === 7 && x >= spacesX[i] && x <= spacesX[0] + 800 && y >= spacesY[i] && y < spacesY[i+1]) {
-      square = i;
-      console.log(i, square);
+      console.log(square + " all");
       break;
     }
   }
@@ -236,6 +256,18 @@ function initializePieces() {
     console.log('No square clicked');
   }
 });
+
+
+  canvas.addEventListener("mousemove", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    // console.log("x:", x, "y:", y);
+  });
+
+
+
+
 
 
 
