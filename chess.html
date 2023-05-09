@@ -27,7 +27,7 @@
 </div>
 
 
-<svg width="50px" height="50px" transform="scale(5)">
+<svg width="0px" height="0px" transform="scale(5)">
   <defs>
     
     wQueen
@@ -224,18 +224,29 @@ svgElement.addEventListener('click', (event) => {
 });
 
 
-
-
-
-
-for (let row = 0; row < 8; row++) {
-  for (let col = 0; col < 8; col++) {
-    const id = board[row][col];
-    const x = col * squareSize;
-    const y = row * squareSize;
-    console.log(x, y);
+// Define a separate function for the click event listener
+function handlePieceClick(event) {
+  console.log("Piece element clicked! ID:", event.target.id);
+  if (event.target.id.indexOf("p") === 2 || event.target.id.indexOf("P") === 2) {
+    console.log("You've clicked a pawn.");
+  }
+  else if (event.target.id.indexOf("r") === 2 || event.target.id.indexOf("R") === 2) {
+    console.log("You've clicked a rook.");
+  }
+  else if (event.target.id.indexOf("n") === 2 || event.target.id.indexOf("N") === 2) {
+    console.log("You've clicked a knight.");
+  }
+  else if (event.target.id.indexOf("b") === 2 || event.target.id.indexOf("B") === 2) {
+    console.log("You've clicked a bishop.");
+  }
+  else if (event.target.id.indexOf("k") === 2 || event.target.id.indexOf("K") === 2) {
+    console.log("You've clicked a king.");
+  }
+  else if (event.target.id.indexOf("q") === 2 || event.target.id.indexOf("Q") === 2) {
+    console.log("You've clicked a queen.");
   }
 }
+
 
 function addPiece(x, y, piece, id) {
   const pieceElement = document.createElementNS(svgNS, "use");
@@ -247,12 +258,11 @@ function addPiece(x, y, piece, id) {
   pieceElement.setAttribute("id", id);
   svgElement.appendChild(pieceElement);
 
-  // Add a click event listener to the piece element
-  pieceElement.addEventListener("click", function() {
-    console.log("Piece element clicked!");
-    // Add your logic here
-  });
+  // Add the click event listener to the piece element
+  pieceElement.addEventListener("click", handlePieceClick);
 }
+
+
 
 
 
@@ -265,7 +275,7 @@ for (let row = 0; row < 8; row++) {
     const id = board[row][col];
     const x = col * squareSize;
     const y = row * squareSize;
-    console.log(x, y);
+    // console.log(x, y);
     
     switch (board[row][col]) {
       case "a1":
