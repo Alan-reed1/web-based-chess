@@ -189,12 +189,28 @@ var board = [
 
 
 
-  const initialOffset = 10;
-  var svgNS = "http://www.w3.org/2000/svg";
-  const squareSize = 100;
-  const svgElement = document.getElementById("chessboard");
+const initialOffset = 10;
+var svgNS = "http://www.w3.org/2000/svg";
+const squareSize = 100;
+const svgElement = document.getElementById("chessboard");
+var pieceClicked = false;
 
-  for (var row = 0; row < 8; row++) {
+// where left off: hendle the board click and on click know the coords of the clicked square based on its id. simplify the cose cause the id is already the clicked square. drawpiece needs the id of the clicked piece etc. you got this!
+
+function handleBoardClick(event) {
+  console.log(event.target.id);
+    if (isPieceClicked()) {
+          const id = board[row][col];
+          const x = col * squareSize;
+          const y = row * squareSize;
+          var id = event.target.id;
+          var pieceIdCheck = event.target.id.split()
+          var piece = pieceIdCheck[2];
+          drawPiece(x, y, piece)
+  }
+}
+
+for (var row = 0; row < 8; row++) {
   for (var col = 0; col < 8; col++) {
     var square = document.createElementNS(svgNS, "rect");
     var id = board[row][col];
@@ -203,6 +219,7 @@ var board = [
     square.setAttributeNS(null, "y", row * 100);
     square.setAttributeNS(null, "width", "100");
     square.setAttributeNS(null, "height", "100");
+    square.addEventListener("click", handleBoardClick)
     if ((row + col) % 2 == 0) {
       square.setAttributeNS(null, "fill", "#fff");
     } else {
@@ -213,37 +230,36 @@ var board = [
 }
 document.getElementById("chessboard").style.border = "1px solid black";
 
-
-
-
-svgElement.addEventListener('click', (event) => {
-  const rect = svgElement.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-  console.log("x: ", x, "y: ", y);
-});
-
+function isPieceClicked() {
+  return pieceClicked;
+}
 
 // Define a separate function for the click event listener
 function handlePieceClick(event) {
-  console.log("Piece element clicked! ID:", event.target.id);
+  // console.log("Piece element clicked! ID:", event.target.id);
   if (event.target.id.indexOf("p") === 2 || event.target.id.indexOf("P") === 2) {
     console.log("You've clicked a pawn.");
+    pieceClicked = true;
   }
   else if (event.target.id.indexOf("r") === 2 || event.target.id.indexOf("R") === 2) {
     console.log("You've clicked a rook.");
+    pieceClicked = true;
   }
   else if (event.target.id.indexOf("n") === 2 || event.target.id.indexOf("N") === 2) {
     console.log("You've clicked a knight.");
+    pieceClicked = true;
   }
   else if (event.target.id.indexOf("b") === 2 || event.target.id.indexOf("B") === 2) {
     console.log("You've clicked a bishop.");
+    pieceClicked = true;
   }
   else if (event.target.id.indexOf("k") === 2 || event.target.id.indexOf("K") === 2) {
     console.log("You've clicked a king.");
+    pieceClicked = true;
   }
   else if (event.target.id.indexOf("q") === 2 || event.target.id.indexOf("Q") === 2) {
     console.log("You've clicked a queen.");
+    pieceClicked = true;
   }
 }
 
@@ -262,6 +278,19 @@ function addPiece(x, y, piece, id) {
   pieceElement.addEventListener("click", handlePieceClick);
 }
 
+function drawPiece(square, piece) {
+  const pieceElement = document.createElementNS(svgNS, "use");
+  pieceElement.setAttributeNS("http://www.w3.org/1999/xlink", "href", `#${piece}`);
+  pieceElement.setAttributeNS(null, "x", x + initialOffset);
+  pieceElement.setAttributeNS(null, "y", y + initialOffset);
+  pieceElement.setAttributeNS(null, "width", 80);
+  pieceElement.setAttributeNS(null, "height", 80);
+  var col = board[col]
+    const x = col * squareSize;
+    const y = row * squareSize;
+
+  svgElement.appendChild(pieceElement);
+}
 
 
 
