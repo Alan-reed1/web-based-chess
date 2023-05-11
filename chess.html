@@ -176,6 +176,7 @@
 </div>
 
 <script>
+let currentPiece;
 var board = [
     ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
     ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"],
@@ -195,20 +196,8 @@ const squareSize = 100;
 const svgElement = document.getElementById("chessboard");
 var pieceClicked = false;
 
-// where left off: hendle the board click and on click know the coords of the clicked square based on its id. simplify the cose cause the id is already the clicked square. drawpiece needs the id of the clicked piece etc. you got this!
+// where left off: handle the board click and on click know the coords of the clicked square based on its id. simplify the cose cause the id is already the clicked square. drawpiece needs the id of the clicked piece etc. you got this!
 
-function handleBoardClick(event) {
-  console.log(event.target.id);
-    if (isPieceClicked()) {
-          const id = board[row][col];
-          const x = col * squareSize;
-          const y = row * squareSize;
-          var id = event.target.id;
-          var pieceIdCheck = event.target.id.split()
-          var piece = pieceIdCheck[2];
-          drawPiece(x, y, piece)
-  }
-}
 
 for (var row = 0; row < 8; row++) {
   for (var col = 0; col < 8; col++) {
@@ -234,34 +223,40 @@ function isPieceClicked() {
   return pieceClicked;
 }
 
-// Define a separate function for the click event listener
 function handlePieceClick(event) {
-  // console.log("Piece element clicked! ID:", event.target.id);
-  if (event.target.id.indexOf("p") === 2 || event.target.id.indexOf("P") === 2) {
-    console.log("You've clicked a pawn.");
-    pieceClicked = true;
-  }
-  else if (event.target.id.indexOf("r") === 2 || event.target.id.indexOf("R") === 2) {
-    console.log("You've clicked a rook.");
-    pieceClicked = true;
-  }
-  else if (event.target.id.indexOf("n") === 2 || event.target.id.indexOf("N") === 2) {
-    console.log("You've clicked a knight.");
-    pieceClicked = true;
-  }
-  else if (event.target.id.indexOf("b") === 2 || event.target.id.indexOf("B") === 2) {
-    console.log("You've clicked a bishop.");
-    pieceClicked = true;
-  }
-  else if (event.target.id.indexOf("k") === 2 || event.target.id.indexOf("K") === 2) {
-    console.log("You've clicked a king.");
-    pieceClicked = true;
-  }
-  else if (event.target.id.indexOf("q") === 2 || event.target.id.indexOf("Q") === 2) {
-    console.log("You've clicked a queen.");
-    pieceClicked = true;
-  }
+  var pieceIdCheck = event.target.id.split('')
+  var currentPiece = pieceIdCheck[2];
+  console.log(currentPiece)
+  pieceClicked = true;
 }
+
+function handleBoardClick(event) {
+    if (isPieceClicked()) {
+        const boardId = board;
+        var columnVal
+        var rowVal
+          var squareId = event.target.id;
+            for (let row = 0; row < boardId.length; row++) {
+              for (let col = 0; col < boardId[row].length; col++) {
+                if (boardId[row][col] === squareId) {
+                  columnVal = col;
+                  rowVal = row
+                }
+              }
+            }
+          }
+          var piece = currentPiece;
+          console.log(currentPiece)
+          console.log("this is piece:" + piece)
+          const x = columnVal * squareSize;
+          const y = rowVal * squareSize;
+          console.log(x + "\n" + y );
+          drawPiece(x, y, piece);
+          pieceClicked = false;
+  }
+
+
+
 
 
 function addPiece(x, y, piece, id) {
@@ -278,17 +273,14 @@ function addPiece(x, y, piece, id) {
   pieceElement.addEventListener("click", handlePieceClick);
 }
 
-function drawPiece(square, piece) {
+function drawPiece(x, y, piece) {
   const pieceElement = document.createElementNS(svgNS, "use");
   pieceElement.setAttributeNS("http://www.w3.org/1999/xlink", "href", `#${piece}`);
+  console.log(piece);
   pieceElement.setAttributeNS(null, "x", x + initialOffset);
   pieceElement.setAttributeNS(null, "y", y + initialOffset);
   pieceElement.setAttributeNS(null, "width", 80);
   pieceElement.setAttributeNS(null, "height", 80);
-  var col = board[col]
-    const x = col * squareSize;
-    const y = row * squareSize;
-
   svgElement.appendChild(pieceElement);
 }
 
