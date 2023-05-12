@@ -26,7 +26,7 @@
   <svg id="chessboard" width="800" height="800"></svg>
 </div>
 
-
+<!-- SVG elements, and also scaling pieces -->
 <svg width="0px" height="0px" transform="scale(5)">
   <defs>
     
@@ -176,7 +176,14 @@
 </div>
 
 <script>
+// current clicked piece init
 let currentPiece;
+
+// current clicked piece ID init
+let currentPieceId;
+
+// board array init for notation and also momvement calc.
+// tbh more for me than anything to make more sense of the movement lol
 var board = [
     ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
     ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"],
@@ -189,70 +196,96 @@ var board = [
 ]; 
 
 
-
+// piece offset from top left square corner values
 const initialOffset = 10;
+
+// SVG workability dont delete it needs to be here im not 100% sure why but it does
 var svgNS = "http://www.w3.org/2000/svg";
+
+// size of board squares
 const squareSize = 100;
+
+// board SVG element
 const svgElement = document.getElementById("chessboard");
+
+// is piece clicked init
 var pieceClicked = false;
 
-// where left off: handle the board click and on click know the coords of the clicked square based on its id. simplify the cose cause the id is already the clicked square. drawpiece needs the id of the clicked piece etc. you got this!
 
-
+// chessboard init, nested loops go thorugh the board array and assign id's to each square it creates
+// basically it creats rectangles and based on where its index is in the array assigns is a color value
 for (var row = 0; row < 8; row++) {
   for (var col = 0; col < 8; col++) {
+    // board sqaure init
     var square = document.createElementNS(svgNS, "rect");
+    
+    // board ID system, making ID's square by square
     var id = board[row][col];
+
+    // square SVG attributes: id, coords, width and height. 
     square.setAttributeNS(null, "id", id);
     square.setAttributeNS(null, "x", col * 100);
     square.setAttributeNS(null, "y", row * 100);
     square.setAttributeNS(null, "width", "100");
     square.setAttributeNS(null, "height", "100");
+
+    // adds event listener to each square
     square.addEventListener("click", handleBoardClick)
+
+    // color evaluation based on position
     if ((row + col) % 2 == 0) {
       square.setAttributeNS(null, "fill", "#fff");
     } else {
       square.setAttributeNS(null, "fill", "#555");
     }
+    // adding the SVG element to the html body
     document.getElementById("chessboard").appendChild(square);
   }
 }
+// give chessboard a border
 document.getElementById("chessboard").style.border = "1px solid black";
 
+// return the value of piececlicked, bool.
 function isPieceClicked() {
   return pieceClicked;
 }
 
+// handle if the piece is clicked
 function handlePieceClick(event) {
+  // split the ID of the clicked piece into an array
   var pieceIdCheck = event.target.id.split('')
-  var currentPiece = pieceIdCheck[2];
-  console.log(currentPiece)
+
+  // grab the third index of the array and assign it to the initialized currentPiece
+  currentPiece = pieceIdCheck[2];
+
+  // assign the ID of the clicked piece to the initialized currentPieceId
+  currentPieceId = event.target.id;
+
+  // update pieceClicked value
   pieceClicked = true;
 }
 
+
+// handle if the board is clicked
 function handleBoardClick(event) {
+// only execute code if the pieceClicked value is true
     if (isPieceClicked()) {
         const boardId = board;
-        var columnVal
-        var rowVal
           var squareId = event.target.id;
-            for (let row = 0; row < boardId.length; row++) {
-              for (let col = 0; col < boardId[row].length; col++) {
-                if (boardId[row][col] === squareId) {
-                  columnVal = col;
-                  rowVal = row
-                }
+          for (let row = 0; row < 8; row++) {
+            for (let col = 0; col < 8; col++) {
+              const id = board[row][col];
+              const x = col * squareSize;
+              const y = row * squareSize;
+              if (id === squareId) {
+                  var piece = currentPiece;
+                  drawPiece(x, y, piece);
+                  pieceClicked = false;
               }
             }
           }
-          var piece = currentPiece;
-          console.log(currentPiece)
-          console.log("this is piece:" + piece)
-          const x = columnVal * squareSize;
-          const y = rowVal * squareSize;
-          console.log(x + "\n" + y );
-          drawPiece(x, y, piece);
-          pieceClicked = false;
+        }
+
   }
 
 
@@ -399,9 +432,6 @@ for (let row = 0; row < 8; row++) {
   }
 }
 
-
-const pieces = document.querySelectorAll(".piece");
-
 // movement functionality beginning
 // TODO:
 // step one: get event listener to differentiate between pieces. 
@@ -412,21 +442,6 @@ const pieces = document.querySelectorAll(".piece");
 // (Make sure to be able to (on user click) to know which square was clicked)
 // step five: On click, redraw SVG element on clicked square, factoring in offset to center the piece
 // that should be all the movement done!
-
-// step one: event listeners:
-
-function whichPiece() {
-    
-}
-
-pieces.forEach((piece) => {
-  piece.addEventListener("click", whichPiece())
-});
-
-
-
-
-
 
 </script>
 
